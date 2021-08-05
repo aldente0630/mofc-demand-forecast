@@ -36,6 +36,8 @@
 |DeepAR|0.7200|0.7749|1.5335|26.8035|1.3088|2.0850|
 |VAR|0.7529||||||
 |Prophet|0.8690|∞|1.4120|1.1167|1.6707|1.417|
+|Naive Method|1.3940||||||
+|Mean Method|1.5326||||||
 |DeepVAR|2.1639|0.2100|0.2461|0.0134|2.2618|0.4092|
 
 ### References
@@ -43,6 +45,6 @@
 * [Stock, James, H., Mark W. Watson. 2001. Vector Autoregressions. *Journal of Economic Perspectives*, 15 (4): 101-115.](https://www.princeton.edu/~mwatson/papers/Stock_Watson_JEP_2001.pdf)
 * [David Salinas, Valentin Flunkert, Jan Gasthaus, Tim Januschowski. 2020. DeepAR: Probabilistic forecasting with autoregressive recurrent networks, *International Journal of Forecasting*, 36 (3): 1181-1191.](https://arxiv.org/pdf/1704.04110.pdf)
 * [David Salinas, Michael Bohlke-Schneider, Laurent Callot, Roberto Medico,
-Jan Gasthaus. 2019. High-dimensional multivariate forecasting with low- rank Gaussian Copula Processes. *In Advances in Neural Information Processing Systems*. 6827–6837.](https://arxiv.org/pdf/1910.03002.pdf)
+Jan Gasthaus. 2019. High-dimensional multivariate forecasting with low-rank Gaussian Copula Processes. *In Advances in Neural Information Processing Systems*. 6827–6837.](https://arxiv.org/pdf/1910.03002.pdf)
 * [Kats - One Stop Shop for Time Series Analysis in Python](https://facebookresearch.github.io/Kats/)
 * [GluonTS - Probabilistic Time Series Modeling](https://ts.gluon.ai/index.html)
