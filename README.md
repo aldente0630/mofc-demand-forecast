@@ -17,7 +17,7 @@
 ## Algorithms
 ### Kats: Prophet
 * Since a *Prophet* model has to fit for each ID, I had to use the `apply` function of the `pandas dataframe` and instead used `pandarallel` to maximize the parallelization performance.
-* *Prophet* hyperparameters were tuned through 3-fold CV using the Bayesian optimization module built into the `Kats` library. In this case, *[Tweedie](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_tweedie_deviance.html)* was applied as the loss function.
+* *Prophet* hyperparameters were tuned through 3-fold CV using the *Bayesian Optimization* module built into the `Kats` library. In this case, *[Tweedie](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_tweedie_deviance.html)* was applied as the loss function.
   
 |loss|seasonality_prior_scale|changepoint_prior_scale|changepoint_range|n_changepoints|holidays_prior_scale|yearly_seasonality|weekly_seasonality|daily_seasonality|seasonality_mode|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -25,6 +25,7 @@
 |523.325939|0.215443|0.004642|0.89|50|0.100|False|True|False|multiplicative|
 |537.711920|0.215443|0.010000|0.85|50|0.025|False|True|False|additive|
 |...||||||||||
+* In the figures below, the actual sales (black dots), the point predictions and confidence intervals (blue lines and bands), and the red dotted lines representing the test period are shown.
   
 ![Forecasting-1](./img/prophet-1.svg)
 ![Forecasting-2](./img/prophet-2.svg)
@@ -46,7 +47,7 @@
 ![Forecasting-3](./img/deepar-3.svg)
 
 ### GluonTS: DeepVAR
-* In the case of *DeepVAR*, a multivariate model, what can be set as the probability distribution of the output is limited, which leads to a decrease in performance.
+* In the case of *DeepVAR*, a multivariate model, what can be set as the probability distribution of the output is limited (i.e. *Multivariate Gaussian* distribution), which leads to a decrease in performance.
   
 ![Forecasting-1](./img/deepvar-1.svg)
 ![Forecasting-2](./img/deepvar-2.svg)
