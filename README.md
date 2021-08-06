@@ -10,12 +10,13 @@
 
 ## Competition, Datasets and Evaluation
 * [The M5 Competition](https://mofc.unic.ac.cy/m5-competition) aims to forecast daily sales for the next 28 days based on sales over the last 1,941 days for IDs of 30,490 items per Walmart store.
-* Data includes (a) time series of daily sales quantity by ID, (b) sales prices, and (c) holiday and event information.
+* Data includes (i) time series of daily sales quantity by ID, (ii) sales prices, and (iii) holiday and event information.
 * Evaluation is done through *Weighted Root Mean Squared Scaled Error*. A detailed explanation is given in the M5 Participants Guide and the implementation is at [this link](https://www.kaggle.com/c/m5-forecasting-accuracy/discussion/133834).
 * For hyperparameter tuning, 1% of IDs were randomly selected and used, and 10% were used to measure test set performance.
 
 ## Algorithms
 ### Kats: Prophet
+* *Prophet* can incorporate forward-looking related time series into the model, so features were created with holiday and event information.
 * Since a *Prophet* model has to fit for each ID, I had to use the `apply` function of the `pandas dataframe` and instead used `pandarallel` to maximize the parallelization performance.
 * *Prophet* hyperparameters were tuned through 3-fold CV using the *Bayesian Optimization* module built into the `Kats` library. In this case, *[Tweedie](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_tweedie_deviance.html)* was applied as the loss function.
   
@@ -39,8 +40,8 @@
 ![Forecasting-3](./img/var-3.svg)
 
 ### GluonTS: DeepAR
-* *DeepAR* can incorporate metadata and forward-looking related time series into the model, so features are created with sales prices, holiday and event information. Dynamic categorical variables were quantified through [Feature Hashing](https://alex.smola.org/papers/2009/Weinbergeretal09.pdf).
-* As a hyperparameter, it is very important to set the distribution of the output random variable, and here it is set as the *Negative Binomial* distribution.
+* *DeepAR* can incorporate metadata and forward-looking related time series into the model, so features were created with sales prices, holiday and event information. Dynamic categorical variables were quantified through [Feature Hashing](https://alex.smola.org/papers/2009/Weinbergeretal09.pdf).
+* As a hyperparameter, it is very important to set the probability distribution of the output, and here it is set as the *Negative Binomial* distribution.
 
 ![Forecasting-1](./img/deepar-1.svg)
 ![Forecasting-2](./img/deepar-2.svg)
