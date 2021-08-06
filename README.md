@@ -1,16 +1,31 @@
 # MOFC Sales Forecasting with Time Series Analysis 
 ### Goals
 * Compare the accuracy of various time series forecasting algorithms such as *Prophet*, *DeepAR*, *VAR*, *DeepVAR*, and *LightGBM*
+* (Optional) Use `tsfresh` for automated feature engineering of time series data.
 
 ### Requirements
 * The dataset can be downloaded from [this Kaggle competition](https://www.kaggle.com/c/m5-forecasting-accuracy).
 * In addition to the [Anaconda](https://www.anaconda.com) libraries, you need to install `altair`, `vega_datasets`, `category_encoders`, `mxnet`, `gluonts`, `kats` and `pandarallel`.
-* `kats` requires Python 3.7 or higher.
+  * `kats` requires Python 3.7 or higher.
 
 ## Competition, Datasets and Evaluation
+* [The M5 Competition](https://mofc.unic.ac.cy/m5-competition) aims to predict daily sales for the next 28 days based on sales over the last 1,941 days for IDs of 30,490 items per Walmart store.
+* Data includes (a) time series of daily sales quantity by ID, (b) sales prices, and (c) holiday and event information.
+* Evaluation is done through *Weighted Root Mean Squared Scaled Error*. A detailed explanation is given in the M5 Participants Guide and the implementation was done by referring to [this link](https://www.kaggle.com/c/m5-forecasting-accuracy/discussion/133834).
+* For hyperparameter tuning, 1% of IDs were randomly selected and used, and 10% were used to measure test set performance.
 
 ## Algorithms
 ### Kats: Prophet
+* Since *Prophet* model has to fit for each ID, I had to use `apply` of `pandas` and used `pandarallel` to maximize the parallelization performance.
+* *Prophet* hyperparameter tuning was done through 3-fold CV using the Bayesian optimization module built into the `Kats` library. In this case, *[Tweedie](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_tweedie_deviance.html)* was applied as the loss function.
+  
+|loss|seasonality_prior_scale|changepoint_prior_scale|changepoint_range|n_changepoints|holidays_prior_scale|yearly_seasonality|weekly_seasonality|daily_seasonality|seasonality_mode|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|517.939237|0.464159|0.004642|0.90|50|0.050|False|True|False|multiplicative|
+|523.325939|0.215443|0.004642|0.89|50|0.100|False|True|False|multiplicative|
+|537.711920|0.215443|0.010000|0.85|50|0.025|False|True|False|additive|
+|...||||||||||
+  
 ![Forecasting-1](./img/prophet-1.svg)
 ![Forecasting-2](./img/prophet-2.svg)
 ![Forecasting-3](./img/prophet-3.svg)
