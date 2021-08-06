@@ -16,7 +16,7 @@
 
 ## Algorithms
 ### Kats: Prophet
-* Since *Prophet* model has to fit for each ID, I had to use `apply` of `pandas` and used `pandarallel` to maximize the parallelization performance.
+* Since a *Prophet* model has to fit for each ID, I had to use the `apply` function of the `pandas dataframe` and instead used `pandarallel` to maximize the parallelization performance.
 * *Prophet* hyperparameter tuning was done through 3-fold CV using the Bayesian optimization module built into the `Kats` library. In this case, *[Tweedie](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_tweedie_deviance.html)* was applied as the loss function.
   
 |loss|seasonality_prior_scale|changepoint_prior_scale|changepoint_range|n_changepoints|holidays_prior_scale|yearly_seasonality|weekly_seasonality|daily_seasonality|seasonality_mode|
@@ -31,6 +31,8 @@
 ![Forecasting-3](./img/prophet-3.svg)
 
 ### Kats: VAR
+* Since VAR is a multivariate time series model, the more IDs it fits simultaneously, the better the performance, and the memory requirement increases exponentially.
+  
 ![Forecasting-1](./img/var-1.svg)
 ![Forecasting-2](./img/var-2.svg)
 ![Forecasting-3](./img/var-3.svg)
