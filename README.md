@@ -9,15 +9,15 @@
   * `kats` requires Python 3.7 or higher.
 
 ## Competition, Datasets and Evaluation
-* [The M5 Competition](https://mofc.unic.ac.cy/m5-competition) aims to predict daily sales for the next 28 days based on sales over the last 1,941 days for IDs of 30,490 items per Walmart store.
+* [The M5 Competition](https://mofc.unic.ac.cy/m5-competition) aims to forecast daily sales for the next 28 days based on sales over the last 1,941 days for IDs of 30,490 items per Walmart store.
 * Data includes (a) time series of daily sales quantity by ID, (b) sales prices, and (c) holiday and event information.
-* Evaluation is done through *Weighted Root Mean Squared Scaled Error*. A detailed explanation is given in the M5 Participants Guide and the implementation was done by referring to [this link](https://www.kaggle.com/c/m5-forecasting-accuracy/discussion/133834).
+* Evaluation is done through *Weighted Root Mean Squared Scaled Error*. A detailed explanation is given in the M5 Participants Guide and the implementation is at [this link](https://www.kaggle.com/c/m5-forecasting-accuracy/discussion/133834).
 * For hyperparameter tuning, 1% of IDs were randomly selected and used, and 10% were used to measure test set performance.
 
 ## Algorithms
 ### Kats: Prophet
 * Since a *Prophet* model has to fit for each ID, I had to use the `apply` function of the `pandas dataframe` and instead used `pandarallel` to maximize the parallelization performance.
-* *Prophet* hyperparameter tuning was done through 3-fold CV using the Bayesian optimization module built into the `Kats` library. In this case, *[Tweedie](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_tweedie_deviance.html)* was applied as the loss function.
+* *Prophet* hyperparameters were tuned through 3-fold CV using the Bayesian optimization module built into the `Kats` library. In this case, *[Tweedie](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_tweedie_deviance.html)* was applied as the loss function.
   
 |loss|seasonality_prior_scale|changepoint_prior_scale|changepoint_range|n_changepoints|holidays_prior_scale|yearly_seasonality|weekly_seasonality|daily_seasonality|seasonality_mode|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -31,24 +31,29 @@
 ![Forecasting-3](./img/prophet-3.svg)
 
 ### Kats: VAR
-* Since VAR is a multivariate time series model, the more IDs it fits simultaneously, the better the performance, and the memory requirement increases exponentially.
+* Since *VAR* is a multivariate time series model, the more IDs it fits simultaneously, the better the performance, and the memory requirement increases exponentially.
   
 ![Forecasting-1](./img/var-1.svg)
 ![Forecasting-2](./img/var-2.svg)
 ![Forecasting-3](./img/var-3.svg)
 
 ### GluonTS: DeepAR
+* *DeepAR* can incorporate metadata and forward-looking related time series into the model, so features are created with sales prices, holiday and event information. Dynamic categorical variables were quantified through [Feature Hashing](https://alex.smola.org/papers/2009/Weinbergeretal09.pdf).
+* As a hyperparameter, it is very important to set the distribution of the output random variable, and here it is set as the *Negative Binomial* distribution.
+
 ![Forecasting-1](./img/deepar-1.svg)
 ![Forecasting-2](./img/deepar-2.svg)
 ![Forecasting-3](./img/deepar-3.svg)
 
 ### GluonTS: DeepVAR
+* In the case of *DeepVAR*, a multivariate model, what can be set as the probability distribution of the output is limited, which leads to a decrease in performance.
+  
 ![Forecasting-1](./img/deepvar-1.svg)
 ![Forecasting-2](./img/deepvar-2.svg)
 ![Forecasting-3](./img/deepvar-3.svg)
 
 ## Algorithms Performance Summary
-|Estimator|WRMSSE|MAPE|sMAPE|MAE|MASE|RMSE|
+|Algorithm|WRMSSE|MAPE|sMAPE|MAE|MASE|RMSE|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 |DeepAR|0.7200|0.7749|1.5335|26.8035|1.3088|2.0850|
 |VAR|0.7529||||||
