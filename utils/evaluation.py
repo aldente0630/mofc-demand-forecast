@@ -1,6 +1,6 @@
+from typing import Union
 import numpy as np
 import pandas as pd
-from typing import Union
 from tqdm.notebook import tqdm
 
 
@@ -20,9 +20,7 @@ class WRMSSEEvaluator(object):
         train_target_columns = target.columns.tolist()
         weight_columns = target.iloc[:, -test_steps:].columns.tolist()
         train["all_id"] = 0
-        key_columns = id_columns = train.loc[
-            :, ~train.columns.str.startswith("d_")
-        ].columns.tolist()
+        key_columns = train.loc[:, ~train.columns.str.startswith("d_")].columns.tolist()
         test_target_columns = test.loc[
             :, test.columns.str.startswith("d_")
         ].columns.tolist()
@@ -102,24 +100,26 @@ class WRMSSEEvaluator(object):
         )
         return sales_weights
 
-    def rmsse(self, pred: pd.DataFrame, level: int) -> pd.Series:
+    def rmsse(self, prediction: pd.DataFrame, level: int) -> pd.Series:
         test_total_quantities = getattr(self, f"level-{level}_test_total_quantities")
-        score = ((test_total_quantities - pred) ** 2).mean(axis=1)
+        score = ((test_total_quantities - prediction) ** 2).mean(axis=1)
         scale = getattr(self, f"level-{level}_scale")
         return (score / scale).map(np.sqrt)
 
-    def score(self, preds: Union[pd.DataFrame, np.ndarray]) -> float:
-        assert self.test[self.test_target_columns].shape == preds.shape
+    def score(self, predictions: Union[pd.DataFrame, np.ndarray]) -> float:
+        assert self.test[self.test_target_columns].shape == predictions.shape
 
-        if isinstance(preds, np.ndarray):
-            preds = pd.DataFrame(preds, columns=self.test_target_columns)
+        if isinstance(predictions, np.ndarray):
+            predictions = pd.DataFrame(predictions, columns=self.test_target_columns)
 
-        preds = pd.concat([self.test[self.key_columns], preds], axis=1, sort=False)
+        predictions = pd.concat(
+            [self.test[self.key_columns], predictions], axis=1, sort=False
+        )
 
         all_scores = []
         for i, group_id in enumerate(self.group_ids):
             level_scores = self.rmsse(
-                preds.groupby(group_id)[self.test_target_columns].sum(), i + 1
+                predictions.groupby(group_id)[self.test_target_columns].sum(), i + 1
             )
             weight = getattr(self, f"level-{i + 1}_weight")
             level_scores = pd.concat([weight, level_scores], axis=1, sort=False).prod(

@@ -16,7 +16,7 @@
 
 ## Algorithms
 ### Kats: Prophet
-* *Prophet* can incorporate forward-looking related time series into the model, so features were created with holiday and event information.
+* *Prophet* can incorporate forward-looking related time series into the model, so additional features were created with holiday and event information.
 * Since a *Prophet* model has to fit for each ID, I had to use the `apply` function of the `pandas dataframe` and instead used `pandarallel` to maximize the parallelization performance.
 * *Prophet* hyperparameters were tuned through 3-fold CV using the *Bayesian Optimization* module built into the `Kats` library. In this case, *[Tweedie](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_tweedie_deviance.html)* was applied as the loss function. 
 Below is the hyperparameter tuning result.
@@ -41,7 +41,7 @@ Below is the hyperparameter tuning result.
 ![Forecasting-3](./img/var-3.svg)
 
 ### GluonTS: DeepAR
-* *DeepAR* can incorporate metadata and forward-looking related time series into the model, so features were created with sales prices, holiday and event information. Dynamic categorical variables were quantified through [Feature Hashing](https://alex.smola.org/papers/2009/Weinbergeretal09.pdf).
+* *DeepAR* can incorporate metadata and forward-looking related time series into the model, so additional features were created with sales prices, holiday and event information. Dynamic categorical variables were quantified through [Feature Hashing](https://alex.smola.org/papers/2009/Weinbergeretal09.pdf).
 * As a hyperparameter, it is very important to set the probability distribution of the output, and here it is set as the *Negative Binomial* distribution.
 
 ![Forecasting-1](./img/deepar-1.svg)
