@@ -1,6 +1,6 @@
 # MOFC Sales Forecasting with Time Series Analysis 
 ### Goals
-* Compare the accuracy of various time series forecasting algorithms such as *Prophet*, *DeepAR*, *VAR*, *DeepVAR*, and *LightGBM*
+* Compare the accuracy of various time series forecasting algorithms such as *Prophet*, *DeepAR*, *VAR*, *DeepVAR*, and *[LightGBM](https://papers.nips.cc/paper/2017/file/6449f44a102fde848669bdd9eb6b76fa-Paper.pdf)*
 * (Optional) Use `tsfresh` for automated feature engineering of time series data.
 
 ### Requirements
@@ -24,9 +24,7 @@ Below is the hyperparameter tuning result.
 |loss|seasonality_prior_scale|changepoint_prior_scale|changepoint_range|n_changepoints|holidays_prior_scale|yearly_seasonality|weekly_seasonality|daily_seasonality|seasonality_mode|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 |517.939237|0.464159|0.004642|0.90|50|0.050|False|True|False|multiplicative|
-|523.325939|0.215443|0.004642|0.89|50|0.100|False|True|False|multiplicative|
-|537.711920|0.215443|0.010000|0.85|50|0.025|False|True|False|additive|
-|...||||||||||
+
 * In the figures below, the actual sales (black dots), the point predictions and confidence intervals (blue lines and bands), and the red dotted lines representing the test period are shown.
   
 ![Forecasting-1](./img/prophet-1.svg)
