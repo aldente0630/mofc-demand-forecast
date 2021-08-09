@@ -18,12 +18,11 @@
 ### Kats: Prophet
 * *Prophet* can incorporate forward-looking related time series into the model, so additional features were created with holiday and event information.
 * Since a *Prophet* model has to fit for each ID, I had to use the `apply` function of the `pandas dataframe` and instead used `pandarallel` to maximize the parallelization performance.
-* *Prophet* hyperparameters were tuned through 3-fold CV using the *Bayesian Optimization* module built into the `Kats` library. In this case, *[Tweedie](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_tweedie_deviance.html)* was applied as the loss function. 
-Below is the hyperparameter tuning result.
+* *Prophet* hyperparameters were tuned through 3-fold CV using the *Bayesian Optimization* module built into the `Kats` library. In this case, *[Tweedie](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_tweedie_deviance.html)* was applied as the loss function. Below is the hyperparameter tuning result.
   
-|loss|seasonality_prior_scale|changepoint_prior_scale|changepoint_range|n_changepoints|holidays_prior_scale|yearly_seasonality|weekly_seasonality|daily_seasonality|seasonality_mode|
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|517.939237|0.464159|0.004642|0.90|50|0.050|False|True|False|multiplicative|
+|seasonality_prior_scale|changepoint_prior_scale|changepoint_range|n_changepoints|holidays_prior_scale|yearly_seasonality|weekly_seasonality|daily_seasonality|seasonality_mode|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|0.464159|0.004642|0.90|50|0.050|False|True|False|multiplicative|
 
 * In the figures below, the actual sales (black dots), the point predictions and confidence intervals (blue lines and bands), and the red dotted lines representing the test period are shown.
   
@@ -53,6 +52,16 @@ Below is the hyperparameter tuning result.
 ![Forecasting-2](./img/deepvar-2.svg)
 ![Forecasting-3](./img/deepvar-3.svg)
 
+### LightGBM
+* I used `tsfresh` to convert time series into structured data features, which consumes a lot of computational resources.
+* A *LightGBM* *Tweedie* regression model  was fitted. Hyperparameters were tuned via 3-fold CV using the *Bayesian Optimization* function of the `hyperopt` library. The following is the hyperparameter tuning result.
+  
+|boosting|learning_rate|num_iterations|num_leaves|max_depth|min_data_in_leaf|min_sum_hessian_in_leaf|bagging_fraction|bagging_freq|feature_fraction|extra_trees|lambda_l1|lambda_l2|path_smooth|max_bin|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+||||||||||||||||
+  
+* The sales forecast for day D+1 was used recursively to predict the sales volume for day D+2 through feature engineering, and through this iterative process, 28-day test set performance was measured.
+
 ## Algorithms Performance Summary
 |Algorithm|WRMSSE|MAPE|sMAPE|MAE|MASE|RMSE|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -62,6 +71,8 @@ Below is the hyperparameter tuning result.
 |Naive Method|1.3940||||||
 |Mean Method|1.5326||||||
 |DeepVAR|2.1639|0.2100|0.2461|0.0134|2.2618|0.4092|
+
+As a result, *DeepAR* was finally selected and submitted its predictions to Kaggle, achieving a WRMSSE value of 0.8112 based on the private leaderboard. (The score for 1st place is 0.5204.)
 
 ### References
 * [Taylor SJ, Letham B. 2017. Forecasting at scale. *PeerJ Preprints* 5:e3190v2](https://peerj.com/preprints/3190.pdf)
