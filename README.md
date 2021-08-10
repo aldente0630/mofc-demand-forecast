@@ -53,14 +53,18 @@
 ![Forecasting-3](./img/deepvar-3.svg)
 
 ### LightGBM
-* I used `tsfresh` to convert time series into structured data features, which consumes a lot of computational resources.
+* I used `tsfresh` to convert time series into structured data features, which consumes a lot of computational resources even with minimal settings..
 * A *LightGBM* *Tweedie* regression model  was fitted. Hyperparameters were tuned via 3-fold CV using the *Bayesian Optimization* function of the `hyperopt` library. The following is the hyperparameter tuning result.
   
-|boosting|learning_rate|num_iterations|num_leaves|max_depth|min_data_in_leaf|min_sum_hessian_in_leaf|bagging_fraction|bagging_freq|feature_fraction|extra_trees|lambda_l1|lambda_l2|path_smooth|max_bin|
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-||||||||||||||||
+|boosting|learning_rate|num_iterations|num_leaves|min_data_in_leaf|min_sum_hessian_in_leaf|bagging_fraction|bagging_freq|feature_fraction|extra_trees|lambda_l1|lambda_l2|path_smooth|max_bin|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|gbdt|0.0116|554|187|4|0.0012|0.9241|1|0.5212|True|0.2086|137.1657|39.5719|511|
   
 * The sales forecast for day D+1 was used recursively to predict the sales volume for day D+2 through feature engineering, and through this iterative process, 28-day test set performance was measured.
+
+![Forecasting-1](./img/lgb-1.svg)
+![Forecasting-2](./img/lgb-2.svg)
+![Forecasting-3](./img/lgb-3.svg)
 
 ## Algorithms Performance Summary
 |Algorithm|WRMSSE|MAPE|sMAPE|MAE|MASE|RMSE|
@@ -68,11 +72,12 @@
 |DeepAR|0.7200|0.7749|1.5335|26.8035|1.3088|2.0850|
 |VAR|0.7529||||||
 |Prophet|0.8690|∞|1.4120|1.1167|1.6707|1.417|
+|LightGBM|0.9661||||||
 |Naive Method|1.3940||||||
 |Mean Method|1.5326||||||
 |DeepVAR|2.1639|0.2100|0.2461|0.0134|2.2618|0.4092|
 
-As a result, *DeepAR* was finally selected and submitted its predictions to Kaggle, achieving a WRMSSE value of 0.8112 based on the private leaderboard. (The score for 1st place is 0.5204.)
+As a result, *DeepAR* was finally selected and submitted its predictions to Kaggle, achieving a WRMSSE value of 0.8112 based on the private leaderboard.
 
 ### References
 * [Taylor SJ, Letham B. 2017. Forecasting at scale. *PeerJ Preprints* 5:e3190v2](https://peerj.com/preprints/3190.pdf)
