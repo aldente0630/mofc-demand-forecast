@@ -1,4 +1,4 @@
-# MOFC Sales Forecasting with Time Series Analysis 
+# MOFC Demand Forecasting with Time Series Analysis 
 ### Goals
 * Compare the accuracy of various time series forecasting algorithms such as *Prophet*, *DeepAR*, *VAR*, *DeepVAR*, and *[LightGBM](https://papers.nips.cc/paper/2017/file/6449f44a102fde848669bdd9eb6b76fa-Paper.pdf)*
 * (Optional) Use `tsfresh` for automated feature engineering of time series data.
@@ -53,7 +53,7 @@
 ![Forecasting-3](./img/deepvar-3.svg)
 
 ### LightGBM
-* I used `tsfresh` to convert time series into structured data features, which consumes a lot of computational resources even with minimal settings..
+* I used `tsfresh` to convert time series into structured data features, which consumes a lot of computational resources even with minimal settings.
 * A *LightGBM* *Tweedie* regression model  was fitted. Hyperparameters were tuned via 3-fold CV using the *Bayesian Optimization* function of the `hyperopt` library. The following is the hyperparameter tuning result.
   
 |boosting|learning_rate|num_iterations|num_leaves|min_data_in_leaf|min_sum_hessian_in_leaf|bagging_fraction|bagging_freq|feature_fraction|extra_trees|lambda_l1|lambda_l2|path_smooth|max_bin|
