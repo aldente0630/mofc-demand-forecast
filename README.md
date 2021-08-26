@@ -69,13 +69,13 @@
 ## Algorithms Performance Summary
 |Algorithm|WRMSSE|MAPE|sMAPE|MAE|MASE|RMSE|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|DeepAR|0.7200|0.7749|1.5335|26.8035|1.3088|2.0850|
+|DeepAR|0.7200|0.7749|1.5335|0.9573|1.3088|2.0850|
 |VAR|0.7529||||||
 |Prophet|0.8690|∞|1.4120|1.1167|1.6707|1.417|
 |LightGBM|0.9661||||||
 |Naive Method|1.3940||||||
 |Mean Method|1.5326||||||
-|DeepVAR|2.1639|0.2100|0.2461|0.0134|2.2618|0.4092|
+|DeepVAR|2.1639|0.2100|0.2461|0.3340|2.2618|0.4092|
 
 As a result, *DeepAR* was finally selected and submitted its predictions to Kaggle, achieving a WRMSSE value of 0.8112 based on the private leaderboard.
 
