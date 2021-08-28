@@ -84,7 +84,6 @@ As a result, *DeepAR* was finally selected and submitted its predictions to Kagg
 * [Prophet: Forecasting at Scale](https://research.fb.com/blog/2017/02/prophet-forecasting-at-scale)
 * [Stock, James, H., Mark W. Watson. 2001. Vector Autoregressions. *Journal of Economic Perspectives*, 15 (4): 101-115.](https://www.princeton.edu/~mwatson/papers/Stock_Watson_JEP_2001.pdf)
 * [David Salinas, Valentin Flunkert, Jan Gasthaus, Tim Januschowski. 2020. DeepAR: Probabilistic forecasting with autoregressive recurrent networks, *International Journal of Forecasting*, 36 (3): 1181-1191.](https://arxiv.org/pdf/1704.04110.pdf)
-* [How the DeepAR Algorithm Works](https://docs.aws.amazon.com/sagemaker/latest/dg/deepar_how-it-works.html)
 * [David Salinas, Michael Bohlke-Schneider, Laurent Callot, Roberto Medico,
 Jan Gasthaus. 2019. High-dimensional multivariate forecasting with low-rank Gaussian Copula Processes. *In Advances in Neural Information Processing Systems*. 6827–6837.](https://arxiv.org/pdf/1910.03002.pdf)
 * [Kats - One Stop Shop for Time Series Analysis in Python](https://facebookresearch.github.io/Kats/)
