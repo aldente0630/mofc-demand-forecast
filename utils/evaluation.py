@@ -1,7 +1,49 @@
-from typing import Union
 import numpy as np
 import pandas as pd
+from typing import Union
+from sklearn.metrics import mean_absolute_error, mean_squared_error
 from tqdm.notebook import tqdm
+
+
+def calc_eval_metric(y_true, y_pred):
+    eval_metrics = dict()
+
+    for index in y_true.index:
+        eval_metrics_by_id = dict()
+
+        eval_metrics_by_id["mae"] = mean_absolute_error(
+            y_true.loc[index, :], y_pred.loc[index, :]
+        )
+        eval_metrics_by_id["rmse"] = np.sqrt(
+            mean_squared_error(y_true.loc[index, :], y_pred.loc[index, :])
+        )
+        eval_metrics_by_id["smape"] = mean_absolute_percentage_error(
+            y_true.loc[index, :], y_pred.loc[index, :], is_symmetric=True
+        )
+        eval_metrics_by_id["mase"] = mean_absolute_scaled_error(
+            y_true.loc[index, :], y_pred.loc[index, :]
+        )
+
+        eval_metrics[index] = eval_metrics_by_id
+
+    return pd.DataFrame(eval_metrics).T
+
+
+def mean_absolute_percentage_error(y_true, y_pred, is_symmetric=False):
+    if is_symmetric:
+        return np.nanmean(2 * np.abs((y_true - y_pred) / (y_true + y_pred)))
+    else:
+        return np.nanmean(p.abs((y_true - y_pred) / y_true))
+
+
+def mean_absolute_scaled_error(y_true, y_pred, seasonality=1):
+    naive_forecast = y_true[:-seasonality]
+    denominator = mean_absolute_error(y_true[seasonality:], naive_forecast)
+    return (
+        mean_absolute_error(y_true, y_pred) / denominator
+        if denominator > 0.0
+        else np.nan
+    )
 
 
 class WRMSSEEvaluator(object):
