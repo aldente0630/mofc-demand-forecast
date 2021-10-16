@@ -7,3 +7,4 @@ lightgbm==3.1.1
 mxnet==1.8.0.post0
 pandarallel==1.4.8
 tsfresh==0.17.0
+vega_datasets==0.9.0
